@@ -10,6 +10,7 @@ import 'package:cyberman/src/home/widgets/password_variation_option.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class HomeApp extends StatelessWidget {
@@ -20,7 +21,6 @@ class HomeApp extends StatelessWidget {
     return SafeArea(
       child: AnnotatedRegion(
         value: const SystemUiOverlayStyle(
-          statusBarColor: Color(0xffffdabe),
           statusBarIconBrightness: Brightness.dark,
         ),
         child: Scaffold(
@@ -72,13 +72,39 @@ class HomeApp extends StatelessWidget {
                                           color: Colors.black,
                                           child: Text(
                                             'Empty list',
-                                            style: GoogleFonts.shareTechMono(),
+                                            style: GoogleFonts.shareTechMono(
+                                              color: primaryColor,
+                                            ),
                                           ),
                                         ),
                                       );
                                     }
-                                    return PasswordListView(
-                                      state: state.passwords,
+                                    return Column(
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            const SizedBox(),
+                                            TextButton(
+                                              onPressed: () {
+                                                context.go('/view_more');
+                                              },
+                                              child: Text(
+                                                'View More',
+                                                style:
+                                                    GoogleFonts.shareTechMono(
+                                                  color: secondaryColor,
+                                                  fontSize: 20,
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        PasswordListView(
+                                          state: state.passwords,
+                                        )
+                                      ],
                                     );
                                   }
                                   return Text(
@@ -90,7 +116,7 @@ class HomeApp extends StatelessWidget {
                                 },
                               ),
                             ],
-                          )
+                          ),
                         ],
                       ),
                     ),

@@ -1,13 +1,13 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:cyberman/constants.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class Header extends StatelessWidget {
   const Header({super.key});
 
   @override
-  Widget build(BuildContext content) {
+  Widget build(BuildContext context) {
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(10),
@@ -16,7 +16,7 @@ class Header extends StatelessWidget {
             AnimatedTextKit(
               animatedTexts: [
                 TypewriterAnimatedText(
-                  'Password Generator',
+                  'Cyberman',
                   textStyle: GoogleFonts.shareTechMono(
                     textStyle: const TextStyle(
                       fontSize: 32,

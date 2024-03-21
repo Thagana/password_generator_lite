@@ -15,69 +15,72 @@ class PasswordListView extends StatelessWidget {
       itemCount: state.length,
       shrinkWrap: true,
       itemBuilder: (context, index) {
-        return Row(
-          mainAxisAlignment:
-          MainAxisAlignment.spaceBetween,
-          children: [
-            Column(
-              crossAxisAlignment:
-              CrossAxisAlignment.start,
-              children: [
-                Text(
-                  state[index]
-                      .password,
-                  style:
-                  GoogleFonts.shareTechMono(
-                    color: Colors.white,
-                    fontSize: 20,
-                  ),
-                ),
-                Text(
-                  state[index]
-                      ?.date !=
-                      null
-                      ? state
-                      [index].date
-                      : 'Unknwon',
-                  style:
-                  GoogleFonts.shareTechMono(
-                    color: const Color.fromRGBO(
-                      217,
-                      222,
-                      226,
-                      1,
-                    ),
-                    fontSize: 15,
-                  ),
-                ),
-              ],
-            ),
-            IconButton(
-              onPressed: () async {
-                await Clipboard.setData(
-                  ClipboardData(
-                    text: state[index]
+        return Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            mainAxisAlignment:
+            MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                crossAxisAlignment:
+                CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    state[index]
                         .password,
-                  ),
-                );
-                final snackBar = SnackBar(
-                  content: Text(
-                    'Password copied!',
-                    style: GoogleFonts
-                        .shareTechMono(
-                      color: primaryColor,
+                    style:
+                    GoogleFonts.shareTechMono(
+                      color: Colors.white,
+                      fontSize: 20,
                     ),
                   ),
-                );
-                ScaffoldMessenger.of(context)
-                    .showSnackBar(snackBar);
-              },
-              icon: const Icon(
-                Icons.copy,
-                color: Colors.white,
+                  Text(
+                    state[index]
+                        ?.date !=
+                        null
+                        ? state
+                        [index].date
+                        : 'Unknwon',
+                    style:
+                    GoogleFonts.shareTechMono(
+                      color: const Color.fromRGBO(
+                        217,
+                        222,
+                        226,
+                        1,
+                      ),
+                      fontSize: 15,
+                    ),
+                  ),
+                ],
               ),
-            ),
-          ],
+              IconButton(
+                onPressed: () async {
+                  await Clipboard.setData(
+                    ClipboardData(
+                      text: state[index]
+                          .password,
+                    ),
+                  );
+                  final snackBar = SnackBar(
+                    content: Text(
+                      'Password copied!',
+                      style: GoogleFonts
+                          .shareTechMono(
+                        color: primaryColor,
+                      ),
+                    ),
+                  );
+                  ScaffoldMessenger.of(context)
+                      .showSnackBar(snackBar);
+                },
+                icon: const Icon(
+                  Icons.copy,
+                  color: Colors.white,
+                ),
+              ),
+            ],
+          ),
         );
       },
     );

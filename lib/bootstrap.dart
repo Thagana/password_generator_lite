@@ -2,10 +2,8 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
-import 'package:cyberman/adaptors/password_adaptor.dart';
 import 'package:flutter/widgets.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-
 
 class AppBlocObserver extends BlocObserver {
   const AppBlocObserver();

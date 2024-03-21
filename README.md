@@ -1,4 +1,4 @@
-# Cyberman
+# PG_
 
 ![coverage][coverage_badge]
 [![style: very good analysis][very_good_analysis_badge]][very_good_analysis_link]
@@ -20,7 +20,7 @@ This project contains 3 flavors:
 
 To run the desired flavor either use the launch configuration in VSCode/Android Studio or use the following commands:
 
-```sh
+```
 # Development
 $ flutter run --flavor development --target lib/main_development.dart
 
@@ -29,6 +29,24 @@ $ flutter run --flavor staging --target lib/main_staging.dart
 
 # Production
 $ flutter run --flavor production --target lib/main_production.dart
+```
+
+## Splash screen flavours
+```shell
+dart run flutter_native_splash:create --flavor production
+```
+
+```shell
+dart run flutter_native_splash:create --flavor acceptance
+```
+
+```shell
+dart run flutter_native_splash:create --flavor development
+```
+
+## Launch Icons
+```shell
+dart run flutter_launcher_icons
 ```
 
 _\*Cyberman works on iOS, Android, Web, and Windows._

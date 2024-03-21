@@ -36,7 +36,7 @@ class PasswordVariationOptions extends StatelessWidget {
                             },
                           ),
                           Text(
-                            'Uppercase letters',
+                            'Uppercase',
                             style: GoogleFonts.shareTechMono()!
                                 .copyWith(color: primaryColor, fontSize: 15),
                           ),
@@ -88,7 +88,7 @@ class PasswordVariationOptions extends StatelessWidget {
                             },
                           ),
                           Text(
-                            'Lowercase letters',
+                            'Lowercase',
                             style: GoogleFonts.shareTechMono()!
                                 .copyWith(color: primaryColor, fontSize: 15),
                           ),
