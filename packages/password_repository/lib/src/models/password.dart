@@ -3,20 +3,22 @@ import 'dart:convert';
 ///
 class Password {
   ///
-  const Password({required this.password, required this.date});
+  const Password({
+    required this.password,
+    required this.date,
+  });
 
   ///
   factory Password.fromJson(Map<String, dynamic> json) {
     return Password(
-        password: json['password'] as String, date: json['date'] as String);
+      password: json['password'] as String,
+      date: json['date'] as String,
+    );
   }
 
   ///
   factory Password.empty() {
-    return const Password(
-      password: '',
-      date: '',
-    );
+    return const Password(password: '', date: '');
   }
 
   ///
@@ -37,7 +39,15 @@ class Password {
   static Map<String, dynamic> toJson(Password password) {
     return {
       'password': password.password,
-      'date': password.date
+      'date': password.date,
+    };
+  }
+
+  ///
+  Map<String, Object?> toMap() {
+    return {
+      'password': password,
+      'date': date,
     };
   }
 

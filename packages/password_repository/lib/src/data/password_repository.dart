@@ -11,7 +11,13 @@ class PasswordRepository {
   }
 
   ///
-  Future<List<Password>> savePassword(String password) {
-    return _provider.savePassword(password);
+  Future<void> savePassword(String password) async {
+     await _provider.savePassword(password);
   }
+
+  ///
+  Future<void> deletePassword(String password) async {
+    await _provider.deletePassword(password);
+  }
+
 }

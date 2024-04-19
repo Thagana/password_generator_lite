@@ -1,23 +1,22 @@
 import 'package:flutter/foundation.dart';
-import 'package:hive/hive.dart';
 import 'package:password_repository/password_repository.dart';
+import 'package:password_repository/src/data/database.dart';
 import 'package:password_repository/src/models/password.dart';
-
-import '../utils/date.dart';
-
+import 'package:password_repository/src/utils/date.dart';
 
 ///
 class PasswordApiProvider {
   ///
+  final dbProvider = DatabaseProvider.dbProvider;
+
+  ///
   Future<List<Password>> getPasswords() async {
     try {
-      final box = await Hive.openBox<String>('passwords');
-      final passwordBox = box.get('passwords');
-      if (passwordBox != null) {
-        final passwords = Password.decode(passwordBox);
-        return passwords;
-      }
-      return [];
+      final db = await dbProvider.database;
+
+      final query = await db.query('passwords');
+
+      return query.map(Password.fromJson).toList();
     } catch (e) {
       if (kDebugMode) {
         print(e);
@@ -27,29 +26,33 @@ class PasswordApiProvider {
   }
 
   ///
-  Future<List<Password>> savePassword(String password) async {
+  Future<void> deletePassword(String password) async {
     try {
-      final box = await Hive.openBox<String>('passwords');
-      final passwordBox = box.get('passwords');
-      final date = getTodayDate();
+      final db = await dbProvider.database;
 
-      if (passwordBox == null) {
-        final temp = <Password>[];
+      await db
+          .rawDelete('DELETE FROM passwords WHERE password = ?', [password]);
 
-        temp.add(Password(password: password, date: date));
-
-        final passwords = Password.encode(temp);
-
-        await box.put('passwords', passwords);
-        return temp;
-      } else {
-        final temp = <Password>[];
-        final passwords = Password.decode(passwordBox);
-        temp..add(Password(password: password, date: date))
-        ..addAll(passwords);
-        await box.put('passwords', Password.encode(temp));
-        return temp;
+    } catch (error) {
+      if (kDebugMode) {
+        print(error);
       }
+      throw Exception('Failed to delete password');
+    }
+  }
+
+  ///
+  Future<void> savePassword(String password) async {
+    try {
+      final db = await dbProvider.database;
+
+      final data = getTodayDate();
+
+      await db.insert(
+        'passwords',
+        Password(password: password, date: data).toMap(),
+      );
+
     } catch (e) {
       if (kDebugMode) {
         print(e);
