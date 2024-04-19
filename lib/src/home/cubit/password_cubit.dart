@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:password_repository/password_repository.dart';
 import 'package:rxdart/rxdart.dart';
 
 part 'password_state.dart';
@@ -13,7 +14,7 @@ enum PasswordStrength {
 }
 
 class PasswordCubit extends Cubit<PasswordCubitState> {
-  PasswordCubit() : super(PasswordInitial());
+  PasswordCubit() : super(PasswordInitial()) {}
 
   // BehaviorSubject
   final _passwordController = BehaviorSubject<String>.seeded('CDnE6BXZtFGbAEt');
@@ -31,7 +32,17 @@ class PasswordCubit extends Cubit<PasswordCubitState> {
   final _isSymbolController = BehaviorSubject<bool>.seeded(false);
 
 
+  final _passwordsController = BehaviorSubject<List<Password>>();
+
+
+  List<Password> get passwordsValue => _passwordsController.value;
+
   String get passwordValue => _passwordController.value;
+
+
+  Stream<List<Password>> get passwordsStream {
+    return _passwordsController.stream;
+  }
 
   Stream<String> get passwordStream {
     return _passwordController.stream;
@@ -60,7 +71,6 @@ class PasswordCubit extends Cubit<PasswordCubitState> {
   Stream<bool> get isNumberOptionStream {
     return _isNumericController.stream;
   }
-
 
   void updatePasswordLength(double value) {
     _passwordLengthController.sink.add(value);
@@ -163,5 +173,6 @@ class PasswordCubit extends Cubit<PasswordCubitState> {
     await _isLowerCaseController.close();
     await _isSymbolController.close();
     await _isUpperCaseController.close();
+    await _passwordsController.close();
   }
 }

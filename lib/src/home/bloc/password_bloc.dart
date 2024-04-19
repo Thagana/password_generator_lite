@@ -1,5 +1,4 @@
 import 'package:bloc/bloc.dart';
-import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:password_repository/password_repository.dart';
 
@@ -11,49 +10,64 @@ part 'password_state.dart';
 class PasswordBloc extends Bloc<PasswordEvent, PasswordState> {
   ///
   PasswordBloc({required this.passwordRepository})
-      : super(const PasswordInitial()) {
-    on<RequestSavePassword>(_requestSavePassword);
+      : super(const PasswordState()) {
+    on<RequestDelete>(_requestDeletePassword);
     on<RequestPasswords>(_requestPasswords);
+    on<RequestAddPassword>(_requestAddPassword);
   }
 
   ///
   final PasswordRepository passwordRepository;
 
-  ///
-  Future<void> _requestSavePassword(
-    RequestSavePassword event,
+  Future<void> _requestAddPassword(
+    RequestAddPassword event,
     Emitter<PasswordState> emit,
   ) async {
     try {
-      final passwords = await passwordRepository.savePassword(event.password);
-      emit(SavePasswordSuccessful(passwords: passwords));
-    } catch (e) {
-      if (kDebugMode) {
-        print(e);
-      }
-      emit(
-        SavePasswordError(
-          message: e.toString(),
-        ),
-      );
-    }
-  }
-
-  Future<void> _requestPasswords(
-      RequestPasswords event,
-      Emitter<PasswordState> emit
-      ) async {
-    try {
+      await passwordRepository.savePassword(event.password);
       final passwords = await passwordRepository.getPasswords();
-      emit(PasswordLoaded(passwords: passwords));
+      emit(state.copyWith(passwords: passwords));
     } catch (error) {
       if (kDebugMode) {
         print(error);
       }
       emit(
-        SavePasswordError(
-          message: error.toString(),
-        ),
+        state.copyWith(errorMessage: 'Something went wrong please try again'),
+      );
+    }
+  }
+
+  Future<void> _requestPasswords(
+    RequestPasswords event,
+    Emitter<PasswordState> emit,
+  ) async {
+    try {
+      final passwords = await passwordRepository.getPasswords();
+      emit(state.copyWith(passwords: passwords));
+    } catch (error) {
+      if (kDebugMode) {
+        print(error);
+      }
+      emit(
+        state.copyWith(errorMessage: 'Something went wrong please try again'),
+      );
+    }
+  }
+
+  Future<void> _requestDeletePassword(
+    RequestDelete event,
+    Emitter<PasswordState> emit,
+  ) async {
+    try {
+      await passwordRepository.deletePassword(event.password);
+      final passwords = await passwordRepository.getPasswords();
+      emit(state.copyWith(passwords: passwords));
+    } catch (error) {
+      if (kDebugMode) {
+        print(error);
+      }
+      emit(
+        state.copyWith(errorMessage: 'Something went wrong please try again'),
       );
     }
   }

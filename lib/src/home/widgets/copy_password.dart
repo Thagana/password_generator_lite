@@ -32,9 +32,10 @@ class CopyPassword extends StatelessWidget {
           onPressed: () async {
             final password = context.read<PasswordCubit>().passwordValue;
             await Clipboard.setData(ClipboardData(text: password));
-            // bloc time
+            if (!context.mounted) return;
+            if (!context.mounted) return;
             context.read<PasswordBloc>().add(
-                  RequestSavePassword(password: password),
+                  RequestAddPassword(password: password),
                 );
           },
         ),

@@ -1,56 +1,31 @@
 part of 'password_bloc.dart';
 
 ///
-abstract class PasswordState extends Equatable {
+class PasswordState {
   ///
-  const PasswordState();
-  @override
-  List<Object> get props => [];
+  const PasswordState({
+    this.passwords = const [],
+    this.errorMessage = '',
+  });
 
-  ///
-  List<Password> get passwords => [];
+  final String errorMessage;
+  final List<Password> passwords;
 
   ///
   Map<String, dynamic>? toJson() {
-    return null;
+    return {
+      'passwords': passwords,
+      'errorMessage': errorMessage,
+    };
   }
-}
 
-///
-class PasswordInitial extends PasswordState {
-  ///
-  const PasswordInitial();
-}
-
-///
-class PasswordError extends PasswordState {
-  ///
-  const PasswordError({required this.message});
-
-  ///
-  final String? message;
-}
-
-///
-class PasswordLoaded extends PasswordState {
-  ///
-  const PasswordLoaded({required this.passwords});
-
-  ///
-  @override
-  final List<Password> passwords;
-}
-
-
-class SavePasswordSuccessful extends PasswordState {
-  const SavePasswordSuccessful({ required this.passwords });
+  PasswordState copyWith({List<Password>? passwords, String? errorMessage}) {
+    return PasswordState(
+      passwords: passwords ?? this.passwords,
+      errorMessage: errorMessage ?? this.errorMessage,
+    );
+  }
 
   @override
-  final List<Password> passwords;
-}
-
-class SavePasswordError extends PasswordState {
-  const SavePasswordError({ required this.message });
-
-  final String message;
+  List<Object?> get props => [errorMessage, passwords];
 }
