@@ -6,7 +6,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class PasswordValue extends StatelessWidget {
-  const PasswordValue({ super.key });
+  const PasswordValue({ required this.width, super.key });
+
+  final double width;
 
   @override
   Widget build(BuildContext context) {
@@ -14,6 +16,7 @@ class PasswordValue extends StatelessWidget {
       padding: const EdgeInsets.all(8),
       child: Container(
         height: 80,
+        width: width,
         decoration: BoxDecoration(
           color: secondaryLightColor,
           border: Border.all(

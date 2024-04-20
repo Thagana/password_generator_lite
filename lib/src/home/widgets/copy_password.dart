@@ -6,14 +6,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class CopyPassword extends StatelessWidget {
-  const CopyPassword({super.key});
+  const CopyPassword({required this.width, super.key});
+
+  final double width;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8),
       child: SizedBox(
-        width: MediaQuery.of(context).size.width,
+        width: width,
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(
             backgroundColor: const Color(0xfffdee00),

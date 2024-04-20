@@ -31,10 +31,10 @@ class HomeApp extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Header(),
-                  const PasswordValue(),
-                  const CopyPassword(),
-                  const PasswordLengthSlider(),
-                  const PasswordVariationOptions(),
+                  const PasswordValue(width: 100,),
+                  const CopyPassword(width: 100,),
+                  const PasswordLengthSlider(width: 100,),
+                  const PasswordVariationOptions(width: 100),
                   Padding(
                     padding: const EdgeInsets.all(10),
                     child: Column(
