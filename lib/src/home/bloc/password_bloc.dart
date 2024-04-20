@@ -26,6 +26,9 @@ class PasswordBloc extends Bloc<PasswordEvent, PasswordState> {
     try {
       await passwordRepository.savePassword(event.password);
       final passwords = await passwordRepository.getPasswords();
+
+      print('STATE: $passwords');
+
       emit(state.copyWith(passwords: passwords));
     } catch (error) {
       if (kDebugMode) {

@@ -1,22 +1,42 @@
 import 'package:flutter/foundation.dart';
+import 'package:hive/hive.dart';
 import 'package:password_repository/password_repository.dart';
-import 'package:password_repository/src/data/database.dart';
 import 'package:password_repository/src/models/password.dart';
 import 'package:password_repository/src/utils/date.dart';
 
 ///
 class PasswordApiProvider {
   ///
-  final dbProvider = DatabaseProvider.dbProvider;
+  static final key = Hive.generateSecureKey();
 
   ///
   Future<List<Password>> getPasswords() async {
     try {
-      final db = await dbProvider.database;
+      final collection = await BoxCollection.open(
+        'CybermanBox',
+        {'passwords', 'settings'},
+        path: './',
+        key: HiveAesCipher(key),
+      );
 
-      final query = await db.query('passwords');
+      final passwordsBox = await collection.openBox('passwords');
 
-      return query.map(Password.fromJson).toList();
+      final passwords = await passwordsBox.get('passwords') as List<dynamic>?;
+
+      if (passwords == null) {
+        return [];
+      }
+
+      final passwordList = passwords
+          .map(
+            (val) => Password(
+              password: val['password'] as String,
+              date: val['date'] as String,
+            ),
+          )
+          .toList();
+
+      return passwordList;
     } catch (e) {
       if (kDebugMode) {
         print(e);
@@ -28,11 +48,22 @@ class PasswordApiProvider {
   ///
   Future<void> deletePassword(String password) async {
     try {
-      final db = await dbProvider.database;
+      final collection = await BoxCollection.open(
+        'CybermanBox',
+        {'passwords', 'settings'},
+        path: './',
+        key: HiveAesCipher(key),
+      );
 
-      await db
-          .rawDelete('DELETE FROM passwords WHERE password = ?', [password]);
+      final passwordsBox = await collection.openBox('passwords');
 
+      final passwords = await passwordsBox.get('passwords') as List<dynamic>?;
+
+      if (passwords == null) return;
+
+      passwords.removeWhere((val) => val.password == password);
+
+      await passwordsBox.put('passwords', [...passwords]);
     } catch (error) {
       if (kDebugMode) {
         print(error);
@@ -44,15 +75,28 @@ class PasswordApiProvider {
   ///
   Future<void> savePassword(String password) async {
     try {
-      final db = await dbProvider.database;
-
       final data = getTodayDate();
 
-      await db.insert(
-        'passwords',
-        Password(password: password, date: data).toMap(),
+      final passwordSave = Password(password: password, date: data).toMap();
+
+      final collection = await BoxCollection.open(
+        'CybermanBox',
+        {'passwords', 'settings'},
+        path: './',
+        key: HiveAesCipher(key),
       );
 
+      final passwordsBox = await collection.openBox('passwords');
+
+      final passwords = await passwordsBox.get('passwords') as List<dynamic>?;
+
+      if (passwords == null) {
+        await passwordsBox.put('passwords', [passwordSave]);
+        return;
+      }
+      ;
+
+      await passwordsBox.put('passwords', [...passwords, passwordSave]);
     } catch (e) {
       if (kDebugMode) {
         print(e);
