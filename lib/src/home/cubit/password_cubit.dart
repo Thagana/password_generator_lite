@@ -14,31 +14,30 @@ enum PasswordStrength {
 }
 
 class PasswordCubit extends Cubit<PasswordCubitState> {
-  PasswordCubit() : super(PasswordInitial()) {}
+  PasswordCubit() : super(PasswordInitial()) {
+    updatePassword();
+  }
 
   // BehaviorSubject
-  final _passwordController = BehaviorSubject<String>.seeded('CDnE6BXZtFGbAEt');
+  final _passwordController = BehaviorSubject<String>.seeded('');
 
   final _passwordStrength =
       BehaviorSubject<PasswordStrength>.seeded(PasswordStrength.WEEK);
 
   // length option
-  final _passwordLengthController = BehaviorSubject<double>.seeded(8);
+  final _passwordLengthController = BehaviorSubject<double>.seeded(12);
 
   // Checkbox options
   final _isUpperCaseController = BehaviorSubject<bool>.seeded(true);
   final _isLowerCaseController = BehaviorSubject<bool>.seeded(true);
   final _isNumericController = BehaviorSubject<bool>.seeded(true);
-  final _isSymbolController = BehaviorSubject<bool>.seeded(false);
-
+  final _isSymbolController = BehaviorSubject<bool>.seeded(true);
 
   final _passwordsController = BehaviorSubject<List<Password>>();
-
 
   List<Password> get passwordsValue => _passwordsController.value;
 
   String get passwordValue => _passwordController.value;
-
 
   Stream<List<Password>> get passwordsStream {
     return _passwordsController.stream;
@@ -87,7 +86,8 @@ class PasswordCubit extends Cubit<PasswordCubitState> {
     final hasUppercase = password.contains(RegExp(r'[A-Z]'));
     final hasLowercase = password.contains(RegExp(r'[a-z]'));
     final hasDigit = password.contains(RegExp(r'[0-9]'));
-    final hasSpecialChar = password.contains(RegExp(r'[!@#\$%^&*()\-_=+{};:,<.>/?\[\]\\]'));
+    final hasSpecialChar =
+        password.contains(RegExp(r'[!@#\$%^&*()\-_=+{};:,<.>/?\[\]\\]'));
 
     if (hasUppercase && hasLowercase && hasDigit && hasSpecialChar) {
       strength = PasswordStrength.STRONG;
@@ -98,8 +98,6 @@ class PasswordCubit extends Cubit<PasswordCubitState> {
     }
     _passwordStrength.sink.add(strength);
   }
-
-
 
   void updateIsUpperCaseOption(bool? value) {
     if (value != null) {
