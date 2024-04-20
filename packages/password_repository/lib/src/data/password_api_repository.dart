@@ -61,7 +61,7 @@ class PasswordApiProvider {
 
       if (passwords == null) return;
 
-      passwords.removeWhere((val) => val.password == password);
+      passwords.removeWhere((val) => val['password'] == password);
 
       await passwordsBox.put('passwords', [...passwords]);
     } catch (error) {

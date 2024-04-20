@@ -4,8 +4,8 @@ import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class ViewMorePage extends StatelessWidget {
-  const ViewMorePage({super.key});
+class PasswordsApp extends StatelessWidget {
+  const PasswordsApp({super.key});
 
   @override
   Widget build(BuildContext context) {
