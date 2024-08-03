@@ -15,6 +15,7 @@ class DrawerNavigation extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _key,
+      backgroundColor: Colors.black,
       appBar: AppBar(
         backgroundColor: Colors.black,
         leading: IconButton(

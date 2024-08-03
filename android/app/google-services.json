@@ -1,26 +1,44 @@
 {
   "project_info": {
-    "project_number": "808336413203",
-    "project_id": "password-generator-cb253",
-    "storage_bucket": "password-generator-cb253.appspot.com"
+    "project_number": "636775170550",
+    "firebase_url": "https://cyberman-9722e-default-rtdb.firebaseio.com",
+    "project_id": "cyberman-9722e",
+    "storage_bucket": "cyberman-9722e.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:808336413203:android:b8519377689b916255e5e6",
+        "mobilesdk_app_id": "1:636775170550:android:d70c2daeac48178a4907d7",
         "android_client_info": {
           "package_name": "com.thagana.cyberman"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "636775170550-b6ir2lbj1v1i5pc75n40bun0lrqf2rif.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
-          "current_key": "AIzaSyBbzfkSPgyXgVALR7V106vxyfqM01FHeh0"
+          "current_key": "AIzaSyCIhx6yOQw9iukERAdSMQAn319lKITEk-s"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "636775170550-b6ir2lbj1v1i5pc75n40bun0lrqf2rif.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "636775170550-jjnn3jpja5q07crp750ieh339029i143.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.myApp.RunnerTests"
+              }
+            }
+          ]
         }
       }
     }
