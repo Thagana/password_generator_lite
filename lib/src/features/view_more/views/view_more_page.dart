@@ -1,4 +1,4 @@
-import 'package:cyberman/src/home/widgets/password_listview.dart';
+import 'package:cyberman/src/features/home/widgets/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
@@ -35,9 +35,7 @@ class ViewMorePage extends StatelessWidget {
             color: Colors.black,
             child: Column(
               children: [
-                PasswordListView(
-                  width: 500,
-                ),
+                PasswordListView(),
               ],
             ),
           ),
