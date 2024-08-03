@@ -1,20 +1,25 @@
-import 'package:cyberman/src/home/home.dart';
-import 'package:cyberman/src/passwords/views/password_page.dart';
+import 'package:cyberman/src/features/home/views/home.dart';
+import 'package:cyberman/src/features/login/views/login_page.dart';
+import 'package:cyberman/src/features/onbaording/blocs/onboarding_bloc.dart';
+import 'package:cyberman/src/features/onbaording/index.dart';
+import 'package:cyberman/src/features/passwords/passwords.dart';
+import 'package:cyberman/src/features/settings/views/settings_page.dart';
 import 'package:cyberman/src/root/drawer_navigation.dart';
-import 'package:cyberman/src/settings/views/settings_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 class AppRouter {
-  final GoRouter _router = GoRouter(
+  AppRouter._();
+
+  static final GoRouter _router = GoRouter(
     initialLocation: '/',
-    routes: <RouteBase>[
+    routes: [
       StatefulShellRoute.indexedStack(
         builder: (context, state, child) {
-          return DrawerNavigation(
-            child: child,
-          );
+          return DrawerNavigation(child: child);
         },
-        branches: <StatefulShellBranch>[
+        branches: [
           StatefulShellBranch(
             routes: [
               GoRoute(
@@ -41,8 +46,39 @@ class AppRouter {
           ),
         ],
       ),
+      GoRoute(
+        path: '/login',
+        builder: (context, state) => const LoginPage(),
+      ),
+      GoRoute(
+        path: '/onboarding',
+        builder: (context, state) => const Onboarding(),
+      ),
     ],
+    redirect: (context, state) {
+      final loggedIn = FirebaseAuth.instance.currentUser != null;
+      final onboardingState = context.watch<OnboardingBloc>().state;
+
+      print('Onboarding State: ${onboardingState} logged in: ${loggedIn}');
+
+      if (loggedIn) {
+        if (!onboardingState.isDone) {
+          return '/onboarding';
+        }
+        if (state.fullPath == '/' && !onboardingState.isDone) {
+          return '/onboarding';
+        }
+        if (state.fullPath == '/login') {
+          return '/';
+        }
+        return null;
+      }
+      if (!loggedIn && state.fullPath != '/login') {
+        return '/login';
+      }
+      return null;
+    },
   );
 
-  GoRouter get router => _router;
+  static GoRouter get router => _router;
 }

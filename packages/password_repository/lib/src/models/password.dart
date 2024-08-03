@@ -3,22 +3,33 @@ import 'dart:convert';
 ///
 class Password {
   ///
-  const Password({
-    required this.password,
-    required this.date,
-  });
+  const Password(
+      {required this.password,
+      required this.date,
+      required this.name,
+      required this.logo,
+      required this.strength});
 
   ///
   factory Password.fromJson(Map<String, dynamic> json) {
     return Password(
       password: json['password'] as String,
       date: json['date'] as String,
+      name: json['name'] as String,
+      logo: json['logo'] as String,
+      strength: json['strength'] as double,
     );
   }
 
   ///
   factory Password.empty() {
-    return const Password(password: '', date: '');
+    return const Password(
+      password: '',
+      date: '',
+      name: '',
+      logo: '',
+      strength: 0,
+    );
   }
 
   ///
@@ -28,10 +39,28 @@ class Password {
   final String date;
 
   ///
-  Password copyWith({String? password, String? date}) {
+  final String name;
+
+  ///
+  final String logo;
+
+  ///
+  final double strength;
+
+  ///
+  Password copyWith({
+    String? password,
+    String? date,
+    String? name,
+    String? logo,
+    double? strength,
+  }) {
     return Password(
       password: password ?? this.password,
       date: date ?? this.date,
+      name: name ?? this.name,
+      logo: logo ?? this.logo,
+      strength: strength ?? this.strength,
     );
   }
 
@@ -40,6 +69,9 @@ class Password {
     return {
       'password': password.password,
       'date': password.date,
+      'name': password.name,
+      'logo': password.logo,
+      'strength': password.strength
     };
   }
 
@@ -48,6 +80,9 @@ class Password {
     return {
       'password': password,
       'date': date,
+      'name': name,
+      'logo': logo,
+      'strength': strength,
     };
   }
 
