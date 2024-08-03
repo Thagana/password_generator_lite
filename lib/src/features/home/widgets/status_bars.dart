@@ -1,5 +1,5 @@
-import 'package:cyberman/src/home/cubit/password_cubit.dart';
-import 'package:cyberman/src/home/widgets/status_bar.dart';
+import 'package:cyberman/src/features/home/cubit/password_cubit.dart';
+import 'package:cyberman/src/features/home/widgets/status_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -12,8 +12,7 @@ class StatusBars extends StatelessWidget {
       stream: context.read<PasswordCubit>().passwordStrengthStream,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          print(snapshot);
-          switch(snapshot.data) {
+          switch (snapshot.data) {
             case PasswordStrength.WEEK:
               return const Column(
                 mainAxisAlignment: MainAxisAlignment.center,
