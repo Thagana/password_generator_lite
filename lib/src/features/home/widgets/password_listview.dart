@@ -1,5 +1,8 @@
+import 'dart:ui';
+
 import 'package:cyberman/constants.dart';
 import 'package:cyberman/src/features/home/bloc/password_bloc.dart';
+import 'package:cyberman/src/features/onbaording/blocs/onboarding_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -30,14 +33,15 @@ class PasswordListView extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       GestureDetector(
-                        onTap: () => {
-                          context.go('/passwords'),
+                        onTap: () =>
+                        {
+                          GoRouter.of(context).go('/passwords'),
                         },
                         child: Text(
                           'View More',
                           style: GoogleFonts.shareTechMono(color: primaryColor),
                         ),
-                      )
+                      ),
                     ],
                   ),
                 ListView.builder(
@@ -98,11 +102,15 @@ class PasswordListView extends StatelessWidget {
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(
-                                    state.passwords[index].password,
-                                    style: GoogleFonts.shareTechMono(
-                                      color: Colors.white,
-                                      fontSize: 20,
+                                  ImageFiltered(
+                                    imageFilter:
+                                    ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+                                    child: Text(
+                                      state.passwords[index].password,
+                                      style: GoogleFonts.shareTechMono(
+                                        color: Colors.white,
+                                        fontSize: 20,
+                                      ),
                                     ),
                                   ),
                                   Text(
@@ -119,29 +127,33 @@ class PasswordListView extends StatelessWidget {
                                   ),
                                 ],
                               ),
-                              IconButton(
-                                onPressed: () async {
-                                  await Clipboard.setData(
-                                    ClipboardData(
-                                      text: state.passwords[index].password,
+                              Row(
+                                children: [
+                                  IconButton(
+                                    onPressed: () async {
+                                      await Clipboard.setData(
+                                        ClipboardData(
+                                          text: state.passwords[index].password,
+                                        ),
+                                      );
+                                      final snackBar = SnackBar(
+                                        content: Text(
+                                          'Password copied!',
+                                          style: GoogleFonts.shareTechMono(
+                                            color: primaryColor,
+                                          ),
+                                        ),
+                                      );
+                                      if (!context.mounted) return;
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(snackBar);
+                                    },
+                                    icon: const Icon(
+                                      Icons.copy,
+                                      color: Colors.white,
                                     ),
-                                  );
-                                  final snackBar = SnackBar(
-                                    content: Text(
-                                      'Password copied!',
-                                      style: GoogleFonts.shareTechMono(
-                                        color: primaryColor,
-                                      ),
-                                    ),
-                                  );
-                                  if (!context.mounted) return;
-                                  ScaffoldMessenger.of(context)
-                                      .showSnackBar(snackBar);
-                                },
-                                icon: const Icon(
-                                  Icons.copy,
-                                  color: Colors.white,
-                                ),
+                                  )
+                                ],
                               ),
                             ],
                           ),
@@ -149,7 +161,7 @@ class PasswordListView extends StatelessWidget {
                       ),
                     );
                   },
-                )
+                ),
               ],
             );
           }

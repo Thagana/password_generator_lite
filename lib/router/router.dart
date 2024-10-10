@@ -59,8 +59,6 @@ class AppRouter {
       final loggedIn = FirebaseAuth.instance.currentUser != null;
       final onboardingState = context.watch<OnboardingBloc>().state;
 
-      print('Onboarding State: ${onboardingState} logged in: ${loggedIn}');
-
       if (loggedIn) {
         if (!onboardingState.isDone) {
           return '/onboarding';

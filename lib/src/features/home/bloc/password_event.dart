@@ -9,7 +9,11 @@ abstract class PasswordEvent {
 ///
 class RequestPasswords extends PasswordEvent {
   ///
-  const RequestPasswords();
+  const RequestPasswords({ required this.plainPassword });
+
+  final String plainPassword;
+
+  List<Object?> get props => [plainPassword];
 }
 
 class RequestAddPassword extends PasswordEvent {

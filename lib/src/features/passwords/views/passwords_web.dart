@@ -120,8 +120,8 @@ class PasswordsWeb extends StatelessWidget {
                                         onPressed: () async {
                                           await Clipboard.setData(
                                             ClipboardData(
-                                              text:
-                                                  state.passwords[index].password,
+                                              text: state
+                                                  .passwords[index].password,
                                             ),
                                           );
                                           final snackBar = SnackBar(
