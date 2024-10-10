@@ -3,12 +3,14 @@ import 'dart:convert';
 ///
 class Password {
   ///
-  const Password(
-      {required this.password,
-      required this.date,
-      required this.name,
-      required this.logo,
-      required this.strength});
+  const Password({
+    required this.password,
+    required this.date,
+    required this.name,
+    required this.logo,
+    required this.strength,
+    this.show = false,
+  });
 
   ///
   factory Password.fromJson(Map<String, dynamic> json) {
@@ -47,21 +49,23 @@ class Password {
   ///
   final double strength;
 
+  final bool show;
+
   ///
-  Password copyWith({
-    String? password,
-    String? date,
-    String? name,
-    String? logo,
-    double? strength,
-  }) {
+  Password copyWith(
+      {String? password,
+      String? date,
+      String? name,
+      String? logo,
+      double? strength,
+      bool? show}) {
     return Password(
-      password: password ?? this.password,
-      date: date ?? this.date,
-      name: name ?? this.name,
-      logo: logo ?? this.logo,
-      strength: strength ?? this.strength,
-    );
+        password: password ?? this.password,
+        date: date ?? this.date,
+        name: name ?? this.name,
+        logo: logo ?? this.logo,
+        strength: strength ?? this.strength,
+        show: show ?? this.show);
   }
 
   /// toJson
@@ -71,7 +75,8 @@ class Password {
       'date': password.date,
       'name': password.name,
       'logo': password.logo,
-      'strength': password.strength
+      'strength': password.strength,
+      'show': password.show
     };
   }
 
@@ -83,6 +88,7 @@ class Password {
       'name': name,
       'logo': logo,
       'strength': strength,
+      'show': show
     };
   }
 

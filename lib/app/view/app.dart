@@ -13,30 +13,41 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final passwordRepository = PasswordRepository();
+    final onboardingRepository = OnboardingRepository();
+
     return MultiRepositoryProvider(
       providers: [RepositoryProvider(create: (context) => passwordRepository)],
       child: MultiBlocProvider(
         providers: [
-          BlocProvider<PasswordBloc>(
-            create: (context) =>
-                PasswordBloc(passwordRepository: passwordRepository)
-                  ..add(const RequestPasswords()),
-          ),
-          BlocProvider(create: (context) => PasswordCubit()),
           BlocProvider(
             create: (context) => OnboardingBloc(
-              onboardingRepository: OnboardingRepository(),
+              onboardingRepository: onboardingRepository,
             )..add(const RequestOnboardingState()),
           ),
+          BlocProvider(create: (context) => PasswordCubit()),
         ],
-        child: MaterialApp.router(
-          debugShowCheckedModeBanner: false,
-          title: 'Cyberman',
-          theme: ThemeData(
-            colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-            useMaterial3: true,
-          ),
-          routerConfig: AppRouter.router,
+        child: Builder(
+          builder: (context) {
+            final plainPassword = context.watch<OnboardingBloc>().state.plainPassword;
+            return MultiBlocProvider(
+              providers: [
+                BlocProvider<PasswordBloc>(
+                  create: (context) =>
+                  PasswordBloc(passwordRepository: passwordRepository)
+                    ..add(RequestPasswords(plainPassword: plainPassword)),
+                ),
+              ],
+              child: MaterialApp.router(
+                debugShowCheckedModeBanner: false,
+                title: 'Cyberman',
+                theme: ThemeData(
+                  colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+                  useMaterial3: true,
+                ),
+                routerConfig: AppRouter.router,
+              ),
+            );
+          },
         ),
       ),
     );

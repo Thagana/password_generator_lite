@@ -25,7 +25,7 @@ class PasswordCubit extends Cubit<PasswordCubitState> {
       BehaviorSubject<PasswordStrength>.seeded(PasswordStrength.WEEK);
 
   // length option
-  final _passwordLengthController = BehaviorSubject<double>.seeded(12);
+  final _passwordLengthController = BehaviorSubject<double>.seeded(32);
 
   // Checkbox options
   final _isUpperCaseController = BehaviorSubject<bool>.seeded(true);
@@ -174,6 +174,7 @@ class PasswordCubit extends Cubit<PasswordCubitState> {
   void dispose() {
     updatePassword();
   }
+
 
   @override
   Future<void> close() async {

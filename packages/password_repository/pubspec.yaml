@@ -14,7 +14,8 @@ dependencies:
   firebase_core: ^2.29.0
   firebase_auth: ^4.17.9
   intl: ^0.18.0
-  encrypt: ^5.0.3
+  encrypt: ^5.0.0
+  pointycastle: ^3.5.0
 
 dev_dependencies:
   flutter_test:
